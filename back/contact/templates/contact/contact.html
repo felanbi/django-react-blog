@@ -1,0 +1,106 @@
+{% extends 'core/base.html' %} 
+
+{% block title %}Register{% endblock %} 
+
+{% block content %}
+<style>
+  #success-message {
+      transition: opacity 0.5s ease-out;
+  }
+</style>
+
+<form 
+  method="post" 
+  id="contact-form"
+  class="container w-50 position-fixed top-50 start-50 translate-middle needs-validation" 
+  novalidate
+>
+
+  {% csrf_token %}
+  <h1 class="h3 mb-3 fw-normal text-center">Contact us !</h1>
+
+  <!-- Success message after form submission -->
+  {% if messages %}
+  <div id="success-message" class="d-flex justify-content-center alert alert-success text-center text-success fw-bold">
+    <p class="w-75">Thank you for your report ! We have received your request and will process it as soon as possible.</p>
+  </div>
+  {% endif %}
+
+  <!-- Email -->
+  <div class="form-floating">
+    {% if form.mail.errors %}
+    <input
+      type="email"
+      id="mail"
+      name="mail"
+      class="form-control is-invalid"
+      value="{{ form.mail.value }}"
+    />
+    <div class="invalid-feedback mb-2">
+      {{ form.mail.errors.0 }}
+    </div>
+    {% else %}
+    <input
+      type="email"
+      id="mail"
+      name="mail"
+      class="form-control"
+      placeholder="name@example.com"
+      value="{{ form.mail.value|default_if_none:'' }}"
+    />
+    {% endif %}
+    <label for="mail">Email address</label>
+  </div>
+
+  <!-- Type -->
+  <div class="form-floating">
+    <select class="form-select" id="type" name="type">
+      <option value="C" {% if form.type.value == 'C' %}selected{% endif %}>Contact</option>
+      <option value="B" {% if form.type.value == 'B' %}selected{% endif %}>Bug</option>
+    </select>
+    <label for="type">Report type</label>
+  </div>
+
+  <!-- Content -->
+  <div class="form-floating mb-3">
+    {% if form.content.errors %}
+    <textarea
+      id="content"
+      name="content"
+      class="form-control is-invalid"
+      placeholder="Leave a comment here"
+      style="height: 10rem"
+    ></textarea>
+    <div class="invalid-feedback mb-2">
+      {{ form.content.errors.0 }}
+    </div>
+    {% else %}
+    <textarea
+      id="content"
+      name="content"
+      class="form-control"
+      placeholder="Leave a comment here"
+      style="height: 10rem"
+    ></textarea>
+    {% endif %}
+    <label for="content">Message</label>
+  </div>
+
+  <!-- Submit -->
+  <button type="submit" class="btn btn-primary w-100">Submit</button>
+
+</form>
+<script>
+  setTimeout(() => {
+      var message = document.getElementById('success-message');
+      
+      if (message) {
+          message.style.opacity = 0; 
+
+          setTimeout(() => {
+              message.classList.add('visually-hidden'); 
+          }, 500);
+      }
+  }, 5000); 
+</script>
+{% endblock %}
