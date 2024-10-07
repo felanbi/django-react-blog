@@ -3,4 +3,6 @@
 **/migrations/*
 !**/migrations/__init__.py
 
+**/media/
+
 *.sqlite3
