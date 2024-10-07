@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import path, include
 from django.conf import settings
-from django.conf.urls import handler404, handler500, handler403
+from django.conf.urls import handler404
+from django.views.defaults import page_not_found  
 from django.conf.urls.static import static
 from django.core.handlers.wsgi import WSGIRequest
 
@@ -13,12 +14,10 @@ urlpatterns = [
 	path('api/', include('api.urls'))
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
-def default_error_handler(request: WSGIRequest, *args, **kwargs):
+def error_handler(request: WSGIRequest, exception = None):
     if request.path.startswith('/api'):
         return redirect('docs')
     
-    return redirect('login')
+    return page_not_found(request, exception)
 
-handler403 = default_error_handler
-handler404 = default_error_handler
-handler500 = default_error_handler
+handler404 = error_handler
