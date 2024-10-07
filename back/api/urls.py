@@ -15,9 +15,9 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('docs/', schema_view.with_ui('swagger', cache_timeout = 0), name = 'schema-swagger-ui'),
-    path('token/', TokenObtainPairView.as_view(), name = 'token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name = 'token_refresh'),
-    path('events/', views.EventsListView.as_view({'get': 'list'})),
-    path('articles/', views.ArticlesListView.as_view({'get': 'list'})),   
+    path('docs/', schema_view.with_ui('swagger', cache_timeout = 0), name = 'docs'),
+    path('token/', TokenObtainPairView.as_view(), name = 'access'),
+    path('token/refresh/', TokenRefreshView.as_view(), name = 'refresh'),
+    path('events/', views.EventsListView.as_view({'get': 'list'}), name = 'events'),
+    path('articles/', views.ArticlesListView.as_view({'get': 'list'}), name = 'articles'),   
 ]
