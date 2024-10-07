@@ -2,3 +2,4 @@ django
 django-environ
 drf-yasg
 djangorestframework
+djangorestframework_simplejwt
