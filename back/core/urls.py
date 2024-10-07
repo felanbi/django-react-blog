@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.conf.urls import handler404, handler500, handler403
+from django.shortcuts import redirect
 from django.urls import path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -20,3 +22,10 @@ urlpatterns = [
     path('docs/', schema_view.with_ui('swagger', cache_timeout = 0), name = 'schema-swagger-ui'),
     path('contact/', include('contact.urls')),
 ]
+
+def default_error_handler(*args, **kwargs):
+	return redirect('login')
+
+handler403 = default_error_handler
+handler404 = default_error_handler
+handler500 = default_error_handler
