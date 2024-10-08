@@ -16,6 +16,7 @@ import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+REACT_BUILD = BASE_DIR.parent / 'front' / 'build'
 
 env = environ.Env()
 environ.Env.read_env(BASE_DIR / '.env')
@@ -146,8 +147,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+REACT_ASSET_MANIFEST = REACT_BUILD / 'asset-manifest.json'
 STATICFILES_DIRS = (
-
+    REACT_BUILD / 'static',
 )
 MEDIA_ROOT = BASE_DIR / 'core' / 'media'
 
@@ -159,5 +161,5 @@ MEDIA_URL = 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'contact'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'

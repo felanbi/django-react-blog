@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %} 
+
+{% block title %}Log in{% endblock %} 
+
+{% block content %}
+{% if user.is_authenticated %}
+{% load static %}
+<link href="{% static react_static_css %}" rel="stylesheet" />
+<script defer="defer" src="{% static react_static_js %}"></script>
+<div id="root"></div>
+{% endif %}
+{% endblock %}
