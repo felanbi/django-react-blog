@@ -28,16 +28,17 @@ class LoginView(views.LoginView):
         response.set_cookie(
             key = 'access',
             value = str(refresh.access_token),
-            httponly = True,  
-            samesite = 'Lax'
         )
 
         response.set_cookie(
             key = 'refresh',
             value = str(refresh),
-            httponly = True,  
-            samesite = 'Lax'
         )
 
         return response
         
+class LogoutView(views.LogoutView):
+    def post(self, request, *args, **kwargs):
+        RefreshToken(request.COOKIES['refresh']).blacklist()        
+        
+        return super().post(request, *args, **kwargs)
