@@ -8,7 +8,10 @@ const Articles = ({ jwtToken }) => {
     const fetchArticles = async () => {
       try {
         const response = await fetch("/api/articles/", {
-          headers: { Authorization: `Bearer ${jwtToken}` },
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
           credentials: "include",
         });
         if (!response.ok) {
@@ -24,7 +27,10 @@ const Articles = ({ jwtToken }) => {
     fetchArticles();
   }, []);
 
-  return articles.map((article) => <Article key={article.id} {...article} />);
+  return <>
+  {articles.map((article) => <Article key={article.id} {...article} />)}
+  <div className="mb-4"></div>
+  </>
 };
 
 export default Articles;

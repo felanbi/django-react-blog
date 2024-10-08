@@ -24,6 +24,8 @@ environ.Env.read_env(BASE_DIR / '.env')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+DEV = env.bool('DEV', default = False)
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
@@ -50,6 +52,8 @@ INSTALLED_APPS = [
     'accounts',
     'api',
     'contact'
+] + DEV * [
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -60,13 +64,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+] + DEV * [
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    )
-}
+if not DEV:
+    REST_FRAMEWORK = {
+        'DEFAULT_PERMISSION_CLASSES': (
+            'rest_framework.permissions.IsAuthenticated',
+        )
+    }
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes = 60),
@@ -151,6 +158,7 @@ USE_TZ = True
 REACT_ASSET_MANIFEST = REACT_BUILD / 'asset-manifest.json'
 STATICFILES_DIRS = (
     REACT_BUILD / 'static',
+    BASE_DIR / 'core' / 'static'
 )
 MEDIA_ROOT = BASE_DIR / 'core' / 'media'
 
@@ -164,3 +172,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
+
+if DEV:
+    CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOW_CREDENTIALS = True

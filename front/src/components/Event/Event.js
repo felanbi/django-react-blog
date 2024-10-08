@@ -1,6 +1,6 @@
 import React from "react";
 
-const Event = ({ publicationDate, title, content, image }) => {
+const Event = ({ publicationDate, title, content, image, startDate, endDate }) => {
   return <div>{content}</div>;
 };
 
