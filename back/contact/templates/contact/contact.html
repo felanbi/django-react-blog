@@ -1,14 +1,10 @@
 {% extends 'core/base.html' %} 
+{% load static %}
 
 {% block title %}Register{% endblock %} 
 
 {% block content %}
-<style>
-  #success-message {
-      transition: opacity 0.5s ease-out;
-  }
-</style>
-
+<link rel="stylesheet" href="{% static 'contact/css/style.css' %}">
 <form 
   method="post" 
   id="contact-form"
@@ -20,8 +16,11 @@
   <h1 class="h3 mb-3 fw-normal text-center">Contact us !</h1>
 
   <!-- Success message after form submission -->
-  {% if messages %}
-  <div id="success-message" class="d-flex justify-content-center alert alert-success text-center text-success fw-bold">
+  {% if not form.mail.errors and not form.content.errors %}
+  <div 
+    id="form-ok" 
+    class="d-flex justify-content-center alert alert-success text-center text-success fw-bold visually-hidden" 
+  >
     <p class="w-75">Thank you for your report ! We have received your request and will process it as soon as possible.</p>
   </div>
   {% endif %}
@@ -69,7 +68,6 @@
       name="content"
       class="form-control is-invalid"
       placeholder="Leave a comment here"
-      style="height: 10rem"
     ></textarea>
     <div class="invalid-feedback mb-2">
       {{ form.content.errors.0 }}
@@ -80,27 +78,13 @@
       name="content"
       class="form-control"
       placeholder="Leave a comment here"
-      style="height: 10rem"
     ></textarea>
     {% endif %}
     <label for="content">Message</label>
   </div>
 
   <!-- Submit -->
-  <button type="submit" class="btn bg-dark-blue text-white w-100">Submit</button>
+  <button id="form-btn-submit" type="submit" class="btn bg-dark-blue text-white w-100">Submit</button>
 
 </form>
-<script>
-  setTimeout(() => {
-      var message = document.getElementById('success-message');
-      
-      if (message) {
-          message.style.opacity = 0; 
-
-          setTimeout(() => {
-              message.classList.add('visually-hidden'); 
-          }, 500);
-      }
-  }, 5000); 
-</script>
 {% endblock %}

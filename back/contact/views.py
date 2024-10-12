@@ -15,3 +15,4 @@ class ContactView(CreateView):
         messages.success(self.request, "OK")
         
         return super().form_valid(form)
+    
